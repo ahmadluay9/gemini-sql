@@ -1,0 +1,321 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "2538eaae",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Requirement already satisfied: google-genai in /home/luay9/.venv/lib/python3.9/site-packages (1.9.0)\n",
+      "Collecting psycopg2-binary\n",
+      "  Downloading psycopg2_binary-2.9.10-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.9 kB)\n",
+      "Requirement already satisfied: anyio<5.0.0,>=4.8.0 in /home/luay9/.venv/lib/python3.9/site-packages (from google-genai) (4.9.0)\n",
+      "Requirement already satisfied: google-auth<3.0.0,>=2.14.1 in /home/luay9/.venv/lib/python3.9/site-packages (from google-genai) (2.38.0)\n",
+      "Requirement already satisfied: httpx<1.0.0,>=0.28.1 in /home/luay9/.venv/lib/python3.9/site-packages (from google-genai) (0.28.1)\n",
+      "Requirement already satisfied: pydantic<3.0.0,>=2.0.0 in /home/luay9/.venv/lib/python3.9/site-packages (from google-genai) (2.10.6)\n",
+      "Requirement already satisfied: requests<3.0.0,>=2.28.1 in /home/luay9/.venv/lib/python3.9/site-packages (from google-genai) (2.32.3)\n",
+      "Requirement already satisfied: websockets<15.1.0,>=13.0.0 in /home/luay9/.venv/lib/python3.9/site-packages (from google-genai) (15.0.1)\n",
+      "Requirement already satisfied: typing-extensions<5.0.0,>=4.11.0 in /home/luay9/.venv/lib/python3.9/site-packages (from google-genai) (4.12.2)\n",
+      "Requirement already satisfied: exceptiongroup>=1.0.2 in /home/luay9/.venv/lib/python3.9/site-packages (from anyio<5.0.0,>=4.8.0->google-genai) (1.2.2)\n",
+      "Requirement already satisfied: idna>=2.8 in /home/luay9/.venv/lib/python3.9/site-packages (from anyio<5.0.0,>=4.8.0->google-genai) (3.10)\n",
+      "Requirement already satisfied: sniffio>=1.1 in /home/luay9/.venv/lib/python3.9/site-packages (from anyio<5.0.0,>=4.8.0->google-genai) (1.3.1)\n",
+      "Requirement already satisfied: cachetools<6.0,>=2.0.0 in /home/luay9/.venv/lib/python3.9/site-packages (from google-auth<3.0.0,>=2.14.1->google-genai) (5.5.2)\n",
+      "Requirement already satisfied: pyasn1-modules>=0.2.1 in /home/luay9/.venv/lib/python3.9/site-packages (from google-auth<3.0.0,>=2.14.1->google-genai) (0.4.1)\n",
+      "Requirement already satisfied: rsa<5,>=3.1.4 in /home/luay9/.venv/lib/python3.9/site-packages (from google-auth<3.0.0,>=2.14.1->google-genai) (4.9)\n",
+      "Requirement already satisfied: certifi in /home/luay9/.venv/lib/python3.9/site-packages (from httpx<1.0.0,>=0.28.1->google-genai) (2025.1.31)\n",
+      "Requirement already satisfied: httpcore==1.* in /home/luay9/.venv/lib/python3.9/site-packages (from httpx<1.0.0,>=0.28.1->google-genai) (1.0.7)\n",
+      "Requirement already satisfied: h11<0.15,>=0.13 in /home/luay9/.venv/lib/python3.9/site-packages (from httpcore==1.*->httpx<1.0.0,>=0.28.1->google-genai) (0.14.0)\n",
+      "Requirement already satisfied: annotated-types>=0.6.0 in /home/luay9/.venv/lib/python3.9/site-packages (from pydantic<3.0.0,>=2.0.0->google-genai) (0.7.0)\n",
+      "Requirement already satisfied: pydantic-core==2.27.2 in /home/luay9/.venv/lib/python3.9/site-packages (from pydantic<3.0.0,>=2.0.0->google-genai) (2.27.2)\n",
+      "Requirement already satisfied: charset-normalizer<4,>=2 in /home/luay9/.venv/lib/python3.9/site-packages (from requests<3.0.0,>=2.28.1->google-genai) (3.4.1)\n",
+      "Requirement already satisfied: urllib3<3,>=1.21.1 in /home/luay9/.venv/lib/python3.9/site-packages (from requests<3.0.0,>=2.28.1->google-genai) (2.3.0)\n",
+      "Requirement already satisfied: pyasn1<0.7.0,>=0.4.6 in /home/luay9/.venv/lib/python3.9/site-packages (from pyasn1-modules>=0.2.1->google-auth<3.0.0,>=2.14.1->google-genai) (0.6.1)\n",
+      "Downloading psycopg2_binary-2.9.10-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (3.0 MB)\n",
+      "\u001b[2K   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m3.0/3.0 MB\u001b[0m \u001b[31m29.0 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
+      "\u001b[?25hInstalling collected packages: psycopg2-binary\n",
+      "Successfully installed psycopg2-binary-2.9.10\n"
+     ]
+    }
+   ],
+   "source": [
+    "#!pip install --upgrade google-genai psycopg2-binary"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "a90a2cf6",
+   "metadata": {},
+   "source": [
+    "## Set Google Cloud project information"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "0cd534ae",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import os\n",
+    "from dotenv import load_dotenv\n",
+    "\n",
+    "load_dotenv()\n",
+    "\n",
+    "PROJECT_ID = os.getenv(\"PROJECT_ID\")\n",
+    "LOCATION = os.getenv(\"LOCATION\")\n",
+    "\n",
+    "from google import genai\n",
+    "\n",
+    "client = genai.Client(vertexai=True, project=PROJECT_ID, location=LOCATION)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "0df6d3f8",
+   "metadata": {},
+   "source": [
+    "## Model"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "2d982b7e",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "MODEL_ID = \"gemini-2.0-flash-001\" "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "2d34e1cb",
+   "metadata": {},
+   "source": [
+    "# PostgreSQL"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "2980c8ff",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Attempting connection to: localhost:5432\n",
+      "Connecting to database 'mydatabase' on localhost:5432...\n",
+      "Connection successful!\n",
+      "\n",
+      "Executing query: SELECT * FROM transactions LIMIT 10;\n",
+      "\n",
+      "Query Results:\n",
+      "Columns: ['transaction_id', 'customer_id', 'card_number', 'timestamp', 'merchant_category', 'merchant_type', 'merchant', 'amount', 'currency', 'country', 'city', 'city_size', 'card_type', 'card_present', 'device', 'channel', 'device_fingerprint', 'ip_address', 'distance_from_home', 'high_risk_merchant', 'transaction_hour', 'weekend_transaction', 'velocity_last_hour', 'is_fraud']\n",
+      "------------------------------\n",
+      "('TX_a0ad2a2a', 'CUST_72886', 6646734767813109, datetime.datetime(2024, 9, 30, 0, 0, 1, 34820, tzinfo=datetime.timezone.utc), 'Restaurant', 'fast_food', 'Taco Bell', Decimal('294.87'), 'GBP', 'UK', 'Unknown City', 'medium', 'Platinum Credit', False, 'iOS App', 'mobile', 'e8e6160445c935fd0001501e4cbac8bc', '197.153.60.199', 0, False, 0, False, \"{'num_transactions': 1197, 'total_amount': 33498556.080464985, 'unique_merchants': 105, 'unique_countries': 12, 'max_single_amount': 1925480.6324148502}\", False)\n",
+      "('TX_3599c101', 'CUST_70474', 376800864692727, datetime.datetime(2024, 9, 30, 0, 0, 1, 764464, tzinfo=datetime.timezone.utc), 'Entertainment', 'gaming', 'Steam', Decimal('3368.97'), 'BRL', 'Brazil', 'Unknown City', 'medium', 'Platinum Credit', False, 'Edge', 'web', 'a73043a57091e775af37f252b3a32af9', '208.123.221.203', 1, True, 0, False, \"{'num_transactions': 509, 'total_amount': 20114759.055250417, 'unique_merchants': 100, 'unique_countries': 12, 'max_single_amount': 5149117.011434267}\", True)\n",
+      "('TX_a9461c6d', 'CUST_10715', 5251909460951913, datetime.datetime(2024, 9, 30, 0, 0, 2, 273762, tzinfo=datetime.timezone.utc), 'Grocery', 'physical', 'Whole Foods', Decimal('102582.38'), 'JPY', 'Japan', 'Unknown City', 'medium', 'Platinum Credit', False, 'Firefox', 'web', '218864e94ceaa41577d216b149722261', '10.194.159.204', 0, False, 0, False, \"{'num_transactions': 332, 'total_amount': 39163854.72992601, 'unique_merchants': 97, 'unique_countries': 12, 'max_single_amount': 1852242.1831665323}\", False)\n",
+      "('TX_7be21fc4', 'CUST_16193', 376079286931183, datetime.datetime(2024, 9, 30, 0, 0, 2, 297466, tzinfo=datetime.timezone.utc), 'Gas', 'major', 'Exxon', Decimal('630.60'), 'AUD', 'Australia', 'Unknown City', 'medium', 'Premium Debit', False, 'iOS App', 'mobile', '70423fa3a1e74d01203cf93b51b9631d', '17.230.177.225', 0, False, 0, False, \"{'num_transactions': 764, 'total_amount': 22012599.81898404, 'unique_merchants': 105, 'unique_countries': 12, 'max_single_amount': 2055798.460682913}\", False)\n",
+      "('TX_150f490b', 'CUST_87572', 6172948052178810, datetime.datetime(2024, 9, 30, 0, 0, 2, 544063, tzinfo=datetime.timezone.utc), 'Healthcare', 'medical', 'Medical Center', Decimal('724949.27'), 'NGN', 'Nigeria', 'Unknown City', 'medium', 'Basic Debit', False, 'Chrome', 'web', '9880776c7b6038f2af86bd4e18a1b1a4', '136.241.219.151', 1, False, 0, False, \"{'num_transactions': 218, 'total_amount': 4827636.199648165, 'unique_merchants': 88, 'unique_countries': 12, 'max_single_amount': 1157231.252130005}\", True)\n",
+      "('TX_7fb62ea6', 'CUST_55630', 6771346275824473, datetime.datetime(2024, 9, 30, 0, 0, 3, 50458, tzinfo=datetime.timezone.utc), 'Education', 'online', 'Coursera', Decimal('11.76'), 'BRL', 'Brazil', 'Unknown City', 'medium', 'Platinum Credit', False, 'Chrome', 'web', 'f79b73f19703d83fbfc2736f24cb108c', '184.56.130.84', 1, False, 0, False, \"{'num_transactions': 1130, 'total_amount': 69569641.16535725, 'unique_merchants': 105, 'unique_countries': 12, 'max_single_amount': 5374607.870620787}\", True)\n",
+      "('TX_e0d7eb37', 'CUST_89147', 371305533183152, datetime.datetime(2024, 9, 30, 0, 0, 3, 149440, tzinfo=datetime.timezone.utc), 'Grocery', 'online', 'Instacart', Decimal('2606.19'), 'BRL', 'Brazil', 'Unknown City', 'medium', 'Platinum Credit', False, 'Android App', 'mobile', '20464622be96fda2c75ee7d3698c004d', '163.189.239.227', 0, False, 0, False, \"{'num_transactions': 1392, 'total_amount': 60777372.89105146, 'unique_merchants': 105, 'unique_countries': 12, 'max_single_amount': 5601532.844658206}\", False)\n",
+      "('TX_eb55c2be', 'CUST_10150', 5927166525373625, datetime.datetime(2024, 9, 30, 0, 0, 6, 295911, tzinfo=datetime.timezone.utc), 'Travel', 'hotels', 'Westin', Decimal('828.33'), 'EUR', 'Germany', 'Unknown City', 'medium', 'Platinum Credit', False, 'Edge', 'web', '170a1d12ba71772366076fd302fe29ca', '122.115.119.11', 0, True, 0, False, \"{'num_transactions': 352, 'total_amount': 8690903.098021716, 'unique_merchants': 101, 'unique_countries': 12, 'max_single_amount': 1144374.9551450135}\", False)\n",
+      "('TX_eb63010a', 'CUST_83143', 5029335992770061, datetime.datetime(2024, 9, 30, 0, 0, 6, 813965, tzinfo=datetime.timezone.utc), 'Healthcare', 'medical', 'Medical Center', Decimal('104921.00'), 'NGN', 'Nigeria', 'Unknown City', 'medium', 'Premium Debit', False, 'Edge', 'web', '44a2dde7b410ab3f71344022d1940d4b', '103.121.115.91', 0, False, 0, False, \"{'num_transactions': 618, 'total_amount': 78406163.60312784, 'unique_merchants': 105, 'unique_countries': 12, 'max_single_amount': 3924222.8930350402}\", False)\n",
+      "('TX_b0cd71e2', 'CUST_35022', 4412911822339760, datetime.datetime(2024, 9, 30, 0, 0, 7, 105592, tzinfo=datetime.timezone.utc), 'Retail', 'online', 'eBay', Decimal('51521.84'), 'MXN', 'Mexico', 'Unknown City', 'medium', 'Premium Debit', True, 'NFC Payment', 'pos', 'fbff6151bf7ab2d768a4646aad2cc5b2', '3.35.80.156', 1, False, 0, False, \"{'num_transactions': 723, 'total_amount': 14463622.255731769, 'unique_merchants': 105, 'unique_countries': 12, 'max_single_amount': 949518.6258505383}\", True)\n",
+      "\n",
+      "Database connection closed.\n"
+     ]
+    }
+   ],
+   "source": [
+    "import psycopg2\n",
+    "\n",
+    "db_host = os.getenv(\"db_host\")\n",
+    "db_port = os.getenv(\"db_port\")\n",
+    "db_name = os.getenv(\"db_name\")\n",
+    "db_user = os.getenv(\"db_user\")\n",
+    "db_password = os.getenv(\"db_password\")\n",
+    "table_name = os.getenv(\"table_name\")\n",
+    "\n",
+    "conn = None\n",
+    "cur = None\n",
+    "\n",
+    "print(f\"Attempting connection to: {db_host}:{db_port}\")\n",
+    "\n",
+    "try:\n",
+    "    # --- Establish Connection ---\n",
+    "    print(f\"Connecting to database '{db_name}' on {db_host}:{db_port}...\")\n",
+    "    conn = psycopg2.connect(\n",
+    "        host=db_host,\n",
+    "        port=db_port,\n",
+    "        dbname=db_name,\n",
+    "        user=db_user,\n",
+    "        password=db_password\n",
+    "    )\n",
+    "    print(\"Connection successful!\")\n",
+    "\n",
+    "    # --- Create a Cursor ---\n",
+    "    with conn.cursor() as cur:\n",
+    "\n",
+    "        # --- Define and Execute Query ---\n",
+    "        query = f\"SELECT * FROM {table_name} LIMIT 10;\"\n",
+    "        print(f\"\\nExecuting query: {query}\")\n",
+    "        cur.execute(query)\n",
+    "\n",
+    "        # --- Fetch and Process Results ---\n",
+    "        results = cur.fetchall()\n",
+    "        if results:\n",
+    "            print(\"\\nQuery Results:\")\n",
+    "            colnames = [desc[0] for desc in cur.description]\n",
+    "            print(f\"Columns: {colnames}\")\n",
+    "            print(\"-\" * 30)\n",
+    "            for row in results:\n",
+    "                print(row)\n",
+    "        else:\n",
+    "            print(\"\\nNo results found.\")\n",
+    "\n",
+    "except psycopg2.OperationalError as e:\n",
+    "    print(f\"\\nError connecting to the database: {e}\")\n",
+    "    print(\"--> Check if the database server is running and publicly accessible from Colab.\")\n",
+    "    print(f\"--> Ensure '{db_host}' is the correct public hostname/IP, not 'localhost' if the DB isn't in Colab.\")\n",
+    "    print(\"--> Verify firewall rules allow connections.\")\n",
+    "except psycopg2.Error as e:\n",
+    "    print(f\"\\nDatabase error: {e}\")\n",
+    "except Exception as e:\n",
+    "    print(f\"\\nAn unexpected error occurred: {e}\")\n",
+    "\n",
+    "finally:\n",
+    "    # --- Close Communication ---\n",
+    "    if conn is not None:\n",
+    "        conn.close()\n",
+    "        print(\"\\nDatabase connection closed.\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "98a9bfa5",
+   "metadata": {},
+   "source": [
+    "# Gemini SQL"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "93565d1e",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Import Library\n",
+    "from IPython.display import Markdown, display\n",
+    "from google.genai.types import FunctionDeclaration, GenerateContentConfig, Part, Tool\n",
+    "import psycopg2\n",
+    "from psycopg2 import sql\n",
+    "import textwrap\n",
+    "import sys"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "5ce2a8c6",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# PostgreSQL Connection Details \n",
+    "DB_CONFIG = {\n",
+    "    \"host\": os.getenv(\"db_host\"),\n",
+    "    \"port\": os.getenv(\"db_port\"),\n",
+    "    \"database\" : os.getenv(\"db_name\"),\n",
+    "    \"user\": os.getenv(\"db_user\"),\n",
+    "    \"password\" : os.getenv(\"db_password\")\n",
+    "}"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 22,
+   "id": "3b389bbb",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Check if essential DB config is missing\n",
+    "if not all([DB_CONFIG[\"database\"], DB_CONFIG[\"user\"], DB_CONFIG[\"password\"]]):\n",
+    "     print(\"Error: Missing database configuration.\")\n",
+    "     print(\"Please set DB_HOST, DB_PORT, DB_NAME, DB_USER, and DB_PASSWORD environment variables.\")\n",
+    "     sys.exit(1)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 24,
+   "id": "a2b1bdc7",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "MODEL_ID = \"gemini-2.0-flash-001\" "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 25,
+   "id": "94dc0377",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# --- PostgreSQL Helper Functions ---\n",
+    "\n",
+    "def get_db_connection():\n",
+    "    \"\"\"Establishes a connection to the PostgreSQL database.\"\"\"\n",
+    "    if not all([DB_CONFIG[\"database\"], DB_CONFIG[\"user\"], DB_CONFIG[\"password\"], DB_CONFIG[\"host\"]]):\n",
+    "        print(\"Database configuration is incomplete. Cannot connect.\")\n",
+    "        return None\n",
+    "    try:\n",
+    "        conn = psycopg2.connect(**DB_CONFIG)\n",
+    "        # print(\"Database connection successful.\") # Uncomment for verbose connection logging\n",
+    "        return conn\n",
+    "    except psycopg2.OperationalError as e:\n",
+    "        print(f\"Database Connection Error: {e}\")\n",
+    "        return None\n",
+    "    except Exception as e:\n",
+    "        print(f\"An unexpected error occurred during DB connection: {e}\")\n",
+    "        return None"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "3b39ed99",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": ".venv",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.9.21"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}

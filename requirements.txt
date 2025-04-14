@@ -1,4 +1,14 @@
 python-dotenv
+google-cloud-aiplatform
 google-genai 
+faiss-cpu
 psycopg2-binary
+mysql-connector-python
+sqlalchemy 
+
 streamlit
+langchain-community 
+langchainhub 
+langchain[google-vertexai]
+langchain-google-vertexai
+langgraph
